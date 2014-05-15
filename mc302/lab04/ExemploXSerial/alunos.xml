@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<alunos>
+	<aluno nome="Antonio Oliveira" doc="76.671.761" ra="ra2222" curso="BTM" >
+		<cursadas>
+			<disciplina>tm01</disciplina>
+			<disciplina>tm02</disciplina>
+			<disciplina>ta01</disciplina>
+			<disciplina>ta02</disciplina>
+			<disciplina>ta03</disciplina>
+			<disciplina>hh01</disciplina>
+			<disciplina>hh02</disciplina>
+		</cursadas>
+	</aluno>
+	<aluno nome="Carlos Diogo Freitas" doc="671.617.761" ra="ra3333" curso="BTM" >
+		<cursadas>
+			<disciplina>hh01</disciplina>
+			<disciplina>hh02</disciplina>
+			<disciplina>hh03</disciplina>
+			<disciplina>ta01</disciplina>
+			<disciplina>ta02</disciplina>
+			<disciplina>ta03</disciplina>
+			<disciplina>ta04</disciplina>
+		</cursadas>
+	</aluno>	
+	<aluno nome="Diogo Carlos Antonio" doc="167.671.761" ra="ra4444" curso="BTM" >
+		<cursadas>
+			<disciplina>tm01</disciplina>
+			<disciplina>tm02</disciplina>
+			<disciplina>ta01</disciplina>
+			<disciplina>ta02</disciplina>
+			<disciplina>ta03</disciplina>
+			<disciplina>ta04</disciplina>
+		</cursadas>
+	</aluno>	
+	<aluno nome="Antonio Carlos Diogo" doc="761.176.716" ra="ra1111" curso="BTM" >
+		<cursadas>
+			<disciplina>tm01</disciplina>
+			<disciplina>ta01</disciplina>
+			<disciplina>hh01</disciplina>
+		</cursadas>
+	</aluno>	
+</alunos>

@@ -1,0 +1,67 @@
+.org 0x000
+    LOAD M(size)
+    SUB M(const_1)
+    STOR M(size)
+laco:
+    LOAD M(pointer_1)
+    STOR M(004, 28:39)
+    
+    LOAD M(pointer_2)
+    STOR M(005, 28:39)
+
+    LOAD MQ, M(000) #subs_1
+    MUL M(000)      #subs_2
+    
+    LOAD MQ
+    STOR M(temp)
+    
+    LOAD M(sum)
+    ADD M(temp)
+    STOR M(sum)
+    
+    LOAD M(pointer_1)
+    ADD (const_1)
+    STOR M(pointer_1)
+    
+    LOAD M(pointer_2)
+    ADD (const_1)
+    STOR M(pointer_2)
+    
+    LOAD M(size)
+    SUB M(const_1)
+    STOR M(size)
+    
+    JUMP+M(laco,20:39)
+    
+    LOAD M(sum )
+    
+
+.org 0x040
+sum:
+    .word 00 000 00 000 #accumulatted sum
+temp:
+    .word 00 000 00 000 #temp mult
+const_1:
+    .word 00 000 00 001 #one 042
+
+.org 0x100
+vector_1:
+    .word 00 000 00 001
+    .word 00 000 00 002
+    .word 00 000 00 003
+    
+.org 0x200    
+vector_2:
+    .word 00 000 00 001
+    .word 00 000 00 002
+    .word 00 000 00 003
+    
+.org 0x3FF
+size:
+    .word 00 000 00 003
+
+.org 0x3FD
+pointer_1:
+    .word vector_1 #0x100
+pointer_2:
+    .word vector_2 #0x200

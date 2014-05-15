@@ -1,0 +1,32 @@
+000 01 3FF  06 042 #load sub
+001 21 3FF  01 3FD #stor load laco a direita
+002 13 003  01 3FE #stor load
+003 12 004  09 000 #stor load <-subs na direita
+004 0B 000  0A 000 #mul load <-subs na esquerda
+005 21 041  01 040 #stor load
+006 05 041  21 040 #add stor
+007 01 3FD  05 042 #load add
+008 21 3FD  01 3FE #stor load
+009 05 042  21 3FE #add stor
+00A 01 3FF  06 042 #load sub
+00B 21 3FF  10 001 #stor jump
+00C 01 040  0D 400 #load end
+
+040 00 000  00 000 #sum
+041 00 000  00 000 #temp
+042 00 000  00 001 #one
+
+100 00 000  00 001 #vetor_1 ini
+101 00 000  00 002
+102 00 000  00 003
+103 00 000  00 004
+
+200 00 000  00 004 #vetor_2 ini
+201 00 000  00 003
+202 00 000  00 002
+203 00 000  00 001
+
+3FF 00 000  00 004 #size
+
+3FD 00 000  00 100 #pointer vector_1
+3FE 00 000  00 200 #pointer vector_2

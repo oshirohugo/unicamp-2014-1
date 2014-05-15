@@ -1,0 +1,19 @@
+000 09 106  0B 101 #load mul
+001 0A 000  21 104 #load stor
+002 01 104  15 000 #load rsh
+003 21 103  01 104 #store laco load
+004 0C 103  0A 000 #div load
+005 05 103  15 000 #add rsh
+006 21 103  01 105 #store load
+007 06 100  21 105 #sub store
+008 10 003  01 103 #jump load
+009 0D 400  00 000 #jump to END
+
+
+100 00 000  00 001 #const1
+101 00 000  00 00A #gravity
+103 00 000  00 001 #k
+104 00 000  00 001 #mult
+105 00 000  00 009 #i
+106 00 000  00 DAC #x
+
