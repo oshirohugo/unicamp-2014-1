@@ -7,6 +7,7 @@ consumes = {} #dictionary to store consumes calc by date - consume : (consume, '
 consumesList = [] #list to store consume
 kmsList = [] #list to store distance
 consumeWasCalc = False #flag to calc statistics
+volumeList = [] #list to stores volumes
 
 #function used to store data input in data dictionary
 def anota(date, volume, kms):
@@ -27,6 +28,7 @@ def calcConsume():
         consumesList.append(consume) #put consume in consume list
  
         kmsList.append(kms) #stores values in kmsList be used in kmMed
+        volumeList.append(volume)
         
 def consMin():
     global consumeWasCalc #needed to alter global value
@@ -50,7 +52,7 @@ def consMed():
     if not consumeWasCalc:
         calcConsume() #calc statistics
         consumeWasCalc = True #inform it
-    return sum(consumesList) / len(consumesList) #return consumes list average
+    return sum(kmsList) / sum(volumeList) #return consumes list average
 
 def kmMed():
     global consumeWasCalc  #needed to alter global value
