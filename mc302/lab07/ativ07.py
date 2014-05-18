@@ -52,7 +52,7 @@ def consMed():
     if not consumeWasCalc:
         calcConsume() #calc statistics
         consumeWasCalc = True #inform it
-    return sum(kmsList) / sum(volumeList) #return consumes list average
+    return sum(consumesList) / len(consumesList) #return consumes list average
 
 def kmMed():
     global consumeWasCalc  #needed to alter global value
