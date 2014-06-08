@@ -59,7 +59,7 @@ RESET_HANDLER:
 	str r0, [r1, #UART_UBMR]
 
 	@--Initializa Stack Points of All Modes
-	mov sp, #SVC_STACK 
+	mov sp, #SVC_STACK
 	msr CPSR_c, #0xDF  @ Enter system mode, FIQ/IRQ disabled
 	mov sp, #USR_STACK
 	msr CPSR_c, #0xD1  @ Enter FIQ mode, FIQ/IRQ disabled
