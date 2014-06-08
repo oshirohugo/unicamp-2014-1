@@ -1,6 +1,6 @@
 
 
-#source /home/specg12-1/mc404/simulador/set_path.sh
+source /home/specg12-1/mc404/simulador/set_path.sh
 
 echo '--------------------------------------------------------'
 arm-eabi-as ias_arch.s -g -o ias_arch.o

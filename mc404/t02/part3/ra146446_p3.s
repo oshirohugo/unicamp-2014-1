@@ -1,14 +1,5 @@
 .globl execute
 
-.globl read_instruction
-.globl take_op_1
-.globl take_op_2
-.globl take_address_1
-.globl take_address_2
-.globl read_PC
-.globl increment_PC
-.globl read_arch_PC
-
 .globl internal_PC
 
 .extern IAS_MEM_MAP
@@ -37,40 +28,40 @@
 execute:
     push {lr}
     
-    bl read_instruction
+    bl read_instruction         @reads instruction to 'instruction' label (5 bytes)
     
     bl PC_is_left               @r0 contains 1 if instruction is left, and 0 otherwise
     cmp r0, #0
     beq treat_right_instruction
     
-    treat_left_instruction:
-        bl take_op_1                
-        bl take_address_1
-        b execute_op
+    treat_left_instruction:     
+        bl take_op_1            @take propers op bits for left instruction, put in 'op' label      
+        bl take_address_1       @take propers address bits for left instruction, put in 'address' label 
+        b execute_op            @goes execute_op
     
     treat_right_instruction:
-        bl take_op_2                
-        bl take_address_2
+        bl take_op_2            @take propers op bits for right instruction, put in 'op' label        
+        bl take_address_2       @take propers address bits for right instruction, put in 'address' label    
     
     execute_op:
         mov r1, #0              @return value
     
-        ldr r0, =op
-        ldr r0, [r0]
+        ldr r0, =op             @loads address of 'op' label
+        ldr r0, [r0]            @loads value store in 'op' label
         
         cmp r0, #0xA            @1 - LOAD MQ
-        bne load_mq_case_end
+        bne load_mq_case_end    @jump to next comparision if 'op' was not match
         load_mq_case:
-            bl load_mq
-            b execute_op_end
-        load_mq_case_end:    
+            bl load_mq          @execute load_mq function
+            b execute_op_end    @goes to 'excute_op_end' where verifications are mode to make a return value
+        load_mq_case_end:       @***the other ones do anologous flux
         
         cmp r0, #0x9            @2 - LOAD MQ, M(X)
         bne load_mq_mx_case_end
         load_mq_mx_case:
             bl load_mq_mx
             cmp r0, #1
-            beq execute_return
+            beq execute_return   @goes to execute return carring load_mq return value
             b execute_op_end
         load_mq_mx_case_end:
         
@@ -114,36 +105,28 @@ execute:
         bne jump_left_case_end
         jump_left_case:
             bl jump_left
-            cmp r0, #1
-            beq execute_return
-            b execute_op_end
+            b execute_return    @jump PC increment part, other jump do the same
         jump_left_case_end:
         
         cmp r0, #0xE            @8 - JUMP M(X,20:39)
         bne jump_right_case_end
         jump_right_case:
             bl jump_right
-            cmp r0, #1
-            beq execute_return
-            b execute_op_end
+            b execute_return
         jump_right_case_end:
         
         cmp r0, #0xF            @9 - JUMP+M(X,0:19)
         bne jump_left_plus_case_end
         jump_left_plus_case:
             bl jump_left_plus
-            cmp r0, #1
-            beq execute_return
-            b execute_op_end
+            b execute_return
         jump_left_plus_case_end:
         
         cmp r0, #0x10           @10- JUMP+M(X,20:39)
         bne jump_right_plus_case_end
         jump_right_plus_case:
             bl jump_right_plus
-            cmp r0, #1
-            beq execute_return
-            b execute_op_end
+            b execute_return
         jump_right_plus_case_end:
         
         cmp r0, #0x5            @11- ADD M(X)
@@ -152,7 +135,7 @@ execute:
             bl ias_add
             cmp r0, #1
             beq execute_return
-            b execute_op_end
+            b execute_return
         ias_add_case_end:
         
         cmp r0, #0x7            @12- ADD |M(X)|
@@ -234,18 +217,14 @@ execute:
         
     execute_op_end:
         
-    bl increment_PC
-    
-    bl read_PC                  @r0 contains PC value
-    
-    cmp r0, #1024               @verifies out of map
-    moveq r0, #2
-    movlt r0, #0
-    b execute_return
-    
+    bl increment_PC             @increments internal PC and refresh arch PC
     
     execute_return:
-    
+        bl read_PC              @r0 will contains PC value
+        
+        cmp r0, #1024           @verifies out of map
+        moveq r0, #2
+        movlt r0, #0
     
     pop {pc}
 @=================================================================================================
@@ -253,65 +232,70 @@ execute:
 read_instruction:
     push {r4, lr}
     bl read_PC                          @r0 now contains PC
-    ldr r1, =IAS_MEM_MAP
+    ldr r1, =IAS_MEM_MAP                @take IAS_MEM_MAP address
+    mov r2, #5
+    mul r0, r2                          @calculates displacement
     add r1, r1, r0                      @displace IAS_MEM_MAP to point to right place
     ldr r2, =instruction                @r2 points to label where instruction will be placed
     mov r3, #5
     read_instruction_loop:
         cmp r3, #0
-        beq read_instruction_loop_end
+        beq read_instruction_loop_end   @breaks if counters reaches zero
         ldrb r4, [r1], #1               @reads a byte from IAS_MEM_MAP
         strb r4, [r2], #1               @stores one byte in instruction: r2 = r4
-        sub r3, r3, #1
-        b read_instruction_loop
+        sub r3, r3, #1                  @decrements counter        
+        b read_instruction_loop         @loops!
     read_instruction_loop_end:
-    ldr r0, =instruction                @to debug
+    ldr r0, =instruction                @return the instruction read just for debug purposes
     ldr r0, [r0]
     rev r0, r0
     
     pop {r4, pc}
 @=================================================================================================    
-@Takes OP value from 'instruction' label and stores in label 'op_1' also return op in r0
+@Takes OP value from 'instruction' label and stores in label 'op' also return op in r0
 take_op_1:
     push {lr}
-    ldr r0, =instruction
-    ldrb r0, [r0]
-    ldr r1, =op
-    strb r0, [r1]
+    ldr r0, =instruction        @take 'instructions' address
+    ldrb r0, [r0]               @take 'instruction' value
+    ldr r1, =op                 @take 'op' address 
+    strb r0, [r1]               @stores first byte from instruction in 'op'
     pop {pc}
 @=================================================================================================    
+@Takes OP value from 'instruction' label and stores in label 'op' also return op in r0
 take_op_2:
     push {lr}
-    ldr r0, =instruction
-    add r0, r0, #1
-    ldr r0, [r0]    
-    rev r0, r0
+    ldr r0, =instruction        @take 'instructions' address
+    add r0, r0, #1              @displace address by one byte
+    ldr r0, [r0]                @load 4 bytes
+    rev r0, r0                  @put in big endian
     
-    mov r0, r0, lsr #12
-    ldr r1, =0xff
-    and r0, r0, r1
+    mov r0, r0, lsr #12         @displace 12 bytes
+    ldr r1, =0xff               @mask to take just the last byte after displacement
+    and r0, r0, r1              @apply mask
 
-    ldr r1, =op
-    strb r0, [r1]
+    ldr r1, =op                 @take 'op' address
+    strb r0, [r1]               @store op_2 value in 'op'
     pop {pc}
-@=================================================================================================    
+@=================================================================================================
+@Takes ADDRESS value from 'instruction' label and stores in label 'address' also return op in r0
 take_address_1:
     push {lr}
-    ldr r0, =instruction
-    ldr r0, [r0]
-    rev r0, r0
+    ldr r0, =instruction        @take 'instructions' address
+    ldr r0, [r0]                @load 4 bytes
+    rev r0, r0                  @put in big endian
 
-    mov r0, r0, lsr #12
-    ldr r1, =0xfff
-    and r0, r0, r1
-    ldr r1, =address
-    strb r0, [r1]
+    mov r0, r0, lsr #12         @displace 12 bytes
+    ldr r1, =0xfff              @mask to take just the last 12 bits after displacement
+    and r0, r0, r1              @apply mask  
+    ldr r1, =address            @take 'address' address
+    strb r0, [r1]               @stores address_1 value in 'address'
     pop {pc}
 @=================================================================================================
+@Takes ADDRESS value from 'instruction' label and stores in label 'address' also return op in r0
 take_address_2:
-    push {lr}
+    push {lr}                   @same as take_address_1
     ldr r0, =instruction
-    add r0, r0, #1
+    add r0, r0, #1              @displace one byte to take last 4 bytes
     ldr r0, [r0]
     rev r0, r0
     ldr r1, =0xfff
@@ -320,6 +304,7 @@ take_address_2:
     strb r0, [r1]
     pop {pc}
 @=================================================================================================
+@Return program counter value as actual number
 read_PC:
     push {lr}
     ldr r0, =internal_PC
@@ -374,20 +359,19 @@ read_arch_PC:
     
 @=================================================================================================
 increment_PC:
-    push {r4, lr}
+    push {lr}
     ldr r0, =internal_PC
     ldr r0, [r0]
     
     add r0, r0, #1
     
-    push {r0}
     
     ldr r1, =internal_PC
     str r0, [r1]               @stores new value of PC back to internal_PC
     
     bl sync_arch_PC
     
-    pop {r4, pc}
+    pop {pc}
     
 @=================================================================================================
 division:                               @ r0 = r0 / r1 (integer division)
@@ -435,15 +419,12 @@ PC_is_left:
     ldr r0, [r0]
     mov r1, #2
     bl remain
-    mov r1, r0
-    ldr r0, =internal_PC
-    ldr r0, [r0]
-    cmp r1, #0
+    cmp r0, #0
     beq is_left
     
     is_right:
         mov r0, #0
-        beq PC_is_left_return
+        b PC_is_left_return
     is_left:
         mov r0, #1
     
@@ -462,6 +443,8 @@ load_mem_content:
     bgt out_of_memory_error
     
     ldr r1, =IAS_MEM_MAP
+    mov r4, #5
+    mul r0, r4                          @calculate displacement
     add r1, r1, r0                      @displace IAS_MEM_MAP to point to right place
     ldr r2, =mem_content                @r2 points to label where mem_content will be placed
     mov r3, #5
@@ -473,6 +456,7 @@ load_mem_content:
         sub r3, r3, #1
         b load_mem_content_loop
     load_mem_content_loop_end:
+    mov r0, #0
     b load_mem_content_return
     
     out_of_memory_error:
@@ -528,6 +512,8 @@ store_mx:
     bgt store_mx_error
     
     ldr r1, =IAS_MEM_MAP
+    mov r2, #5
+    mul r0, r2
     add r1, r1, r0
     
     ldr r0, =AC
@@ -620,7 +606,7 @@ jump_left:
     ldr r0, =address
     ldr r0, [r0]
     
-    ldr r1, =1023
+    ldr r1, =1024
     cmp r0, r1
     bgt jump_left_error
     
@@ -648,7 +634,7 @@ jump_right:
     ldr r0, =address
     ldr r0, [r0]
     
-    ldr r1, =1023
+    ldr r1, =1024
     cmp r0, r1
     bgt jump_right_error
     
@@ -660,7 +646,7 @@ jump_right:
     str r0, [r1]
     
     bl sync_arch_PC
-     mov r0, #0
+    mov r0, #0
     b jump_right_return
     
     jump_right_error:
@@ -710,7 +696,7 @@ ias_add:
     beq ias_add_error
     
     ldr r0, =AC
-    ldr r2, =mem_content
+    ldr r1, =mem_content
     
     bl add_5bytes               @result five_bytes
     
@@ -870,16 +856,16 @@ lsh:
     bne one_to_right_end
     
     one_to_right:
-        ldr r0, =0x80
-        and r1, r1, r0
+        ldr r0, =0x1
+        orr r1, r1, r0
     one_to_right_end:
     
     
     ldr r0, =AC
-    ldrb r1, [r0], #1           @store first byte
+    strb r1, [r0], #1           @store first byte
     
     rev r3, r3
-    ldr r3, [r0]                @stores rest
+    str r3, [r0]                @stores rest
     
     mov r0, #0                  @always return OK
     
@@ -933,7 +919,7 @@ store_left_address:
     ldr r1, =0xfff
     and r0, r0, r1
     ldr r1, =aux                @aux contains 12 bits from AC right 
-    strb r0, [r1]
+    str r0, [r1]
     
     bl load_mem_content
     cmp r0, #1
@@ -947,7 +933,7 @@ store_left_address:
     
     ldr r2, =aux
     ldr r2, [r2]
-    mov r2, r2, lsl #20
+    mov r2, r2, lsl #12
     orr r0, r0, r2
     
     rev r0, r0
@@ -959,7 +945,11 @@ store_left_address:
     ldr r0, [r0]
     
     ldr r1, =IAS_MEM_MAP
+    mov r2, #5
+    mul r0, r2
     add r1, r1, r0              @displace IAS_MEM_MAP to point to right place
+    
+    ldr r0, =mem_content
     
     bl copy_5bytes              @substitute the new mem_content in the IAS_MEM_MAP
     
@@ -986,7 +976,7 @@ store_right_address:
     ldr r1, =0xfff
     and r0, r0, r1
     ldr r1, =aux                @aux contains 12 bits from AC right 
-    strb r0, [r1]
+    str r0, [r1]
     
     bl load_mem_content
     cmp r0, #1
@@ -1006,13 +996,18 @@ store_right_address:
     rev r0, r0
     
     ldr r1, =mem_content
+    add r1, r1, #1
     str r0, [r1]                @mem_content now contains mem altered
     
     ldr r0, =address
     ldr r0, [r0]
     
     ldr r1, =IAS_MEM_MAP
+    mov r2, #5
+    mul r0, r2
     add r1, r1, r0              @displace IAS_MEM_MAP to point to right place
+    
+    ldr r0, =mem_content
     
     bl copy_5bytes              @substitute the new mem_content in the IAS_MEM_MAP
     
@@ -1073,7 +1068,7 @@ clean_five_byte:
 
 @=================================================================================================
 negative_number: @put in five_bytes the negative representation of number address in r0
-    push {r4, r5, pc}
+    push {r4, r5, lr}
     
     push {r0}
     bl clean_five_byte
@@ -1110,8 +1105,7 @@ negative_number: @put in five_bytes the negative representation of number addres
     
     rev r4, r4
     str r4, [r0]
-    
-    
+
     pop {r4, r5, pc}
     
 @=================================================================================================
@@ -1162,7 +1156,7 @@ abs_5bytes: @put abs of number whose adress in r0 in five_bytes
         
     return_abs_5bytes:
     
-    push {pc}    
+    pop {pc}    
 
 @=================================================================================================
 sync_arch_PC:

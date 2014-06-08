@@ -1,0 +1,131 @@
+ping() True
+ra: 146446 nome: Hugo Kiyodi Oshiro
+
+mais proxima a Botucatu: Avare
+mais distante de Botucatu: Franca
+cidades num raio de 150km: ['Americana', 'Piracicaba', 'Bauru', 'Itapetininga', 'Avare']
+
+mais proxima a Ribeirao_Preto: Sao_Carlos
+mais distante de Ribeirao_Preto: Araraquara
+cidades num raio de 150km: ['Sao_Carlos']
+
+mais proxima a Franca: Barretos
+mais distante de Franca: Guaratingueta
+cidades num raio de 150km: ['Barretos']
+
+mais proxima a Presidente_Prudente: Assis
+mais distante de Presidente_Prudente: Guaratingueta
+cidades num raio de 150km: ['Assis']
+
+mais proxima a Sorocaba: Itu
+mais distante de Sorocaba: Franca
+cidades num raio de 150km: ['Campinas', 'Piracicaba', 'Jundiai', 'Itu', 'Itapetininga', 'Sao_Paulo', 'Capao_Bonito']
+
+mais proxima a Araraquara: Marilia
+mais distante de Araraquara: Guaratingueta
+cidades num raio de 150km: []
+
+mais proxima a Guaratingueta: Taubate
+mais distante de Guaratingueta: Araraquara
+cidades num raio de 150km: ['Sao_Jose_dos_Campos', 'Taubate']
+
+mais proxima a Rio_Claro: Americana
+mais distante de Rio_Claro: Araraquara
+cidades num raio de 150km: ['Americana', 'Campinas', 'Sao_Carlos', 'Piracicaba', 'Jundiai']
+
+mais proxima a Piracicaba: Americana
+mais distante de Piracicaba: Araraquara
+cidades num raio de 150km: ['Americana', 'Campinas', 'Rio_Claro', 'Sao_Carlos', 'Botucatu', 'Jundiai', 'Sorocaba', 'Itu']
+
+mais proxima a Capao_Bonito: Itapetininga
+mais distante de Capao_Bonito: Franca
+cidades num raio de 150km: ['Sorocaba', 'Itapetininga']
+
+mais proxima a Mogi_das_Cruzes: Sao_Paulo
+mais distante de Mogi_das_Cruzes: Araraquara
+cidades num raio de 150km: ['Jundiai', 'Sao_Paulo', 'Santos']
+
+mais proxima a Campinas: Americana
+mais distante de Campinas: Araraquara
+cidades num raio de 150km: ['Americana', 'Rio_Claro', 'Piracicaba', 'Jundiai', 'Sorocaba', 'Itu', 'Sao_Paulo']
+
+mais proxima a Sao_Jose_dos_Campos: Taubate
+mais distante de Sao_Jose_dos_Campos: Araraquara
+cidades num raio de 150km: ['Sao_Paulo', 'Taubate', 'Guaratingueta']
+
+mais proxima a Assis: Ourinhos
+mais distante de Assis: Guaratingueta
+cidades num raio de 150km: ['Ourinhos', 'Presidente_Prudente']
+
+mais proxima a Itapetininga: Capao_Bonito
+mais distante de Itapetininga: Franca
+cidades num raio de 150km: ['Botucatu', 'Sorocaba', 'Itu', 'Capao_Bonito']
+
+mais proxima a Taubate: Guaratingueta
+mais distante de Taubate: Araraquara
+cidades num raio de 150km: ['Sao_Paulo', 'Sao_Jose_dos_Campos', 'Guaratingueta']
+
+mais proxima a Marilia: Ourinhos
+mais distante de Marilia: Guaratingueta
+cidades num raio de 150km: ['Bauru', 'Ourinhos']
+
+mais proxima a Sao_Jose_do_Rio_Preto: Catanduva
+mais distante de Sao_Jose_do_Rio_Preto: Guaratingueta
+cidades num raio de 150km: ['Catanduva', 'Aracatuba', 'Barretos', 'Votuporanga']
+
+mais proxima a Votuporanga: Sao_Jose_do_Rio_Preto
+mais distante de Votuporanga: Guaratingueta
+cidades num raio de 150km: ['Catanduva', 'Aracatuba', 'Sao_Jose_do_Rio_Preto']
+
+mais proxima a Barretos: Sao_Jose_do_Rio_Preto
+mais distante de Barretos: Guaratingueta
+cidades num raio de 150km: ['Catanduva', 'Sao_Jose_do_Rio_Preto', 'Franca']
+
+mais proxima a Aracatuba: Votuporanga
+mais distante de Aracatuba: Guaratingueta
+cidades num raio de 150km: ['Sao_Jose_do_Rio_Preto', 'Votuporanga']
+
+mais proxima a Ourinhos: Assis
+mais distante de Ourinhos: Guaratingueta
+cidades num raio de 150km: ['Bauru', 'Avare', 'Marilia', 'Assis']
+
+mais proxima a Santos: Sao_Paulo
+mais distante de Santos: Araraquara
+cidades num raio de 150km: ['Jundiai', 'Sao_Paulo', 'Mogi_das_Cruzes']
+
+mais proxima a Americana: Piracicaba
+mais distante de Americana: Araraquara
+cidades num raio de 150km: ['Campinas', 'Rio_Claro', 'Sao_Carlos', 'Piracicaba', 'Botucatu', 'Jundiai', 'Itu', 'Sao_Paulo']
+
+mais proxima a Bauru: Marilia
+mais distante de Bauru: Guaratingueta
+cidades num raio de 150km: ['Botucatu', 'Ourinhos', 'Marilia']
+
+mais proxima a Sao_Carlos: Rio_Claro
+mais distante de Sao_Carlos: Araraquara
+cidades num raio de 150km: ['Americana', 'Rio_Claro', 'Ribeirao_Preto', 'Piracicaba']
+
+mais proxima a Catanduva: Sao_Jose_do_Rio_Preto
+mais distante de Catanduva: Guaratingueta
+cidades num raio de 150km: ['Sao_Jose_do_Rio_Preto', 'Barretos', 'Votuporanga']
+
+mais proxima a Jundiai: Campinas
+mais distante de Jundiai: Araraquara
+cidades num raio de 150km: ['Americana', 'Campinas', 'Rio_Claro', 'Piracicaba', 'Sorocaba', 'Itu', 'Sao_Paulo', 'Mogi_das_Cruzes', 'Santos']
+
+mais proxima a Sao_Paulo: Mogi_das_Cruzes
+mais distante de Sao_Paulo: Araraquara
+cidades num raio de 150km: ['Americana', 'Campinas', 'Jundiai', 'Sorocaba', 'Itu', 'Mogi_das_Cruzes', 'Sao_Jose_dos_Campos', 'Santos', 'Taubate']
+
+mais proxima a Avare: Botucatu
+mais distante de Avare: Franca
+cidades num raio de 150km: ['Botucatu', 'Ourinhos']
+
+mais proxima a Itu: Sorocaba
+mais distante de Itu: Araraquara
+cidades num raio de 150km: ['Americana', 'Campinas', 'Piracicaba', 'Jundiai', 'Sorocaba', 'Itapetininga', 'Sao_Paulo']
+
+mais proxima a Itatiba: ???
+mais distante de Itatiba: ???
+cidades num raio de 150km: None
+
